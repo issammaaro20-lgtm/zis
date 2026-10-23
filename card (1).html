@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ffe6f0;
+            font-family: sans-serif;
+        }
+
+        .card {
+            background: #fff0f5;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(214,51,132,0.15);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .bouquet { font-size: 3rem; }
+        h1 { color: #d63384; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        #secondText {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #d63384;
+        }
+
+        #secondText.visible {
+            display: block;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        #butBtn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            background: white;
+            color: #d63384;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        #wahBtn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            background: #d63384;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        #laBtn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            background: white;
+            color: #d63384;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            border: 2px solid #d63384;
+            position: fixed;
+            transition: none;
+        }
+
+        #question {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #d63384;
+        }
+
+        #question.visible {
+            display: block;
+            animation: fadeIn 0.8s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="bouquet">💐</div>
+        <h1>This is for you ❤️</h1>
+        <p id="firstText">I thought these flowers were beautiful</p>
+
+        <button id="butBtn">But...</button>
+
+        <p id="secondText">then I remembered who they're for. 🌹✨</p>
+
+        <p id="question">نتصاحبو؟ 🥺</p>
+
+        <div class="btn-row" id="btnRow" style="display:none;">
+            <button id="wahBtn">واه 💕</button>
+            <button id="laBtn">لا</button>
+        </div>
+
+        <p id="finalText" style="display:none; margin-top:20px; font-size:1.3rem; font-weight:bold; color:#d63384;"></p>
+    </div>
+
+    <script>
+        // Step 1: But button reveals second text then question
+        document.getElementById("butBtn").addEventListener("click", function(){
+            this.style.display = "none";
+            const secondText = document.getElementById("secondText");
+            secondText.classList.add("visible");
+            secondText.style.display = "block";
+            secondText.style.animation = "fadeIn 1s ease forwards";
+
+            setTimeout(() => {
+                const q = document.getElementById("question");
+                q.classList.add("visible");
+                const row = document.getElementById("btnRow");
+                row.style.display = "flex";
+
+                // Position laBtn over its natural spot first
+                const rect = document.getElementById("laBtn").getBoundingClientRect();
+                document.getElementById("laBtn").style.left = rect.left + "px";
+                document.getElementById("laBtn").style.top = rect.top + "px";
+            }, 1200);
+        });
+
+        // Step 2: لا button runs away
+        const laBtn = document.getElementById("laBtn");
+
+        function moveLaBtn() {
+            const margin = 70;
+            const x = margin + Math.random() * (window.innerWidth - margin * 2);
+            const y = margin + Math.random() * (window.innerHeight - margin * 2);
+            laBtn.style.left = x + "px";
+            laBtn.style.top = y + "px";
+        }
+
+        laBtn.addEventListener("mouseover", moveLaBtn);
+        laBtn.addEventListener("click", moveLaBtn);
+
+        // Step 3: واه button shows success
+        document.getElementById("wahBtn").addEventListener("click", function(){
+            document.getElementById("wahBtn").style.display = "none";
+            laBtn.style.display = "none";
+            document.getElementById("question").style.display = "none";
+
+            const final = document.getElementById("finalText");
+            final.textContent = "راه عرفت باش تقولي واه 🥰💖";
+            final.style.display = "block";
+            final.style.animation = "fadeIn 1s ease forwards";
+        });
+    </script>
+</body>
+</html>
